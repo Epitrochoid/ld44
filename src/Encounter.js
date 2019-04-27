@@ -11,9 +11,9 @@ class Encounter extends Component {
         }
     }
 
-    componentDidMount() {
-        const { player, enemy } = this.props;
-        this.setState({ player, enemy });
+    componentWillReceiveProps(newProps) {
+        const { player, enemy, updatePlayer } = newProps;
+        this.setState({ player, enemy, updatePlayer });
     }
 
     render() {
