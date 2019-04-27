@@ -2,23 +2,21 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import Encounter from './Encounter';
+
 function App() {
+  const testPlayer = {
+      stats: {
+          acc: 10,
+          eva: 10,
+          str: 10,
+          def: 10,
+          mxh: 10
+      }
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <Encounter player={ testPlayer } />
     </div>
   );
 }
