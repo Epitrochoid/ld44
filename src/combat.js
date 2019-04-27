@@ -27,7 +27,10 @@ function resolveMelee(attacker, defender) {
         log = `${attacker.name} hits ${defender.name}. ${damage} damage was dealt`;
     }
 
-  return {attacker: attacker, defender: defender, logMessage: log}
+    return {attacker: attacker, defender: defender, logMessage: log};
 }
 
-export default resolveMelee;
+function resolveSpell(attacker, defender, spell) {
+    return {attacker: attacker, defender: defender, logMessage: ''};
+}
+export default {resolveMelee, resolveSpell};
