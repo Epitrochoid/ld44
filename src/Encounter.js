@@ -4,7 +4,9 @@ class Encounter extends Component {
     constructor() {
         super();
         this.state = {
-          player: { stats: {} },
+            player: { 
+                stats: {} 
+            },
             enemy: {}
         }
     }
