@@ -3,7 +3,7 @@ import './App.css';
 
 import Encounter from './Encounter';
 import playerInit from './static/playerInit';
-import Map from './Map';
+import Map from './Map/Map';
 
 class World extends Component {
     constructor() {
