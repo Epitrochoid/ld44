@@ -1,6 +1,7 @@
 const startingHealth = 10;
 
 const playerInit = {
+    name: 'Player',
     stats: {
         acc: 10,
         eva: 10,

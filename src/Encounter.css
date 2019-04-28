@@ -1,0 +1,22 @@
+.entity-data {
+  margin: 2em;
+  border: 5px solid black;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+}
+
+.stat-name-column {
+  text-align: right;
+}

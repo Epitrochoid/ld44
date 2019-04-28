@@ -24,12 +24,26 @@ class World extends Component {
 
     componentDidMount() {
         this.setState({ player: playerInit });
+
+        const testEnemy = {
+            name: 'Reaper',
+            stats: {
+                acc: 10,
+                eva: 10,
+                str: 8,
+                def: 5,
+                con: 10
+            },
+            baseDmg: 1,
+            hp: 10
+        };
+        this.setState({ enemy: testEnemy });
     }
 
     render() {
         return (
             <div className='World'>
-                <Encounter player={ this.state.player } updatePlayer={ this.updatePlayer } />
+                <Encounter player={ this.state.player } enemy={ this.state.enemy } updatePlayer={ this.updatePlayer } />
             </div>
         );
     }
