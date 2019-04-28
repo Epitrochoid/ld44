@@ -10,7 +10,8 @@ const playerInit = {
         con: startingHealth
     },
     baseDmg: 2,
-    hp: startingHealth
+    hp: startingHealth,
+    cards: []
 }
 
 export default playerInit;

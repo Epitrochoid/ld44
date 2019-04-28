@@ -11,7 +11,8 @@ class World extends Component {
         this.state = {
             player: {
                 stats: {},
-                baseDmg: 2
+                baseDmg: 2,
+                cards: []
             }
         }
 

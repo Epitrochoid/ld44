@@ -4,6 +4,7 @@ import AwesomeButtonStyles from "react-awesome-button/src/styles/styles.scss";
 
 import './Encounter.css';
 import { resolveMelee, resolveSpell } from './combat';
+import getSpells from './spellbook';
 
 class Encounter extends Component {
     constructor() {
@@ -18,8 +19,9 @@ class Encounter extends Component {
             enableAction: true
         }
 
-        this.displayActions = this.displayActions.bind(this);
-        this.attack = this.attack.bind(this);
+        this._displayActions = this.displayActions.bind(this);
+        this._attack = this.attack.bind(this);
+        this._draw = (...args) => this.draw(...args);
     }
 
     displayActions() {
@@ -27,10 +29,16 @@ class Encounter extends Component {
             <div className='button-box'>
                 <AwesomeButton
                     type='primary'
-                    cssModule={ AwesomeButtonStyles }
-                    onPress={ this.attack }
+                    // cssModule={ AwesomeButtonStyles }
+                    onPress={ this._attack }
                 >
                     Attack
+                </AwesomeButton>
+                <AwesomeButton
+                    type="secondary"
+                    onPress={ this._draw }
+                >
+                    Draw
                 </AwesomeButton>
             </div>
         )
@@ -43,6 +51,15 @@ class Encounter extends Component {
             console.log('!!', newVals);
             this.setState({ player: newVals.attacker, enemy: newVals.defender, enableAction:false });
         }
+    }
+
+    draw() {
+        console.log('draw');
+        const { player, updatePlayer } = this.state;
+        updatePlayer({
+            ...player,
+            cards: [...player.cards, ...getSpells(3)]
+        });
     }
 
     displayEntity(entity) {
@@ -116,9 +133,22 @@ class Encounter extends Component {
                 { this.displayEntity(this.state.player) }
                 { this.displayEntity(this.state.enemy) }
                 { this.displayActions() }
+                <Hand cards={this.state.player.cards} />
             </div>
         );
     }
 }
+
+const Hand = ({cards=[]}) => (
+    <div className="hand">
+        {cards.map(card => (
+            <div className="card" key={card.id}>
+                <div className="title">{card.name}</div>
+                <div className="spacing"></div>
+                <button className="action">Play!</button>
+            </div>
+        ))}
+    </div>
+);
 
 export default Encounter;

@@ -20,3 +20,42 @@
 .stat-name-column {
   text-align: right;
 }
+
+.hand {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 10px 5px;
+  flex-wrap: wrap;
+}
+.hand .card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  margin: 0 5px 5px 0;
+  border: 3px solid #242068;
+  height: 200px;
+  width: 150px;
+  box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.2);
+}
+.hand .card:hover {
+  box-shadow: none;
+}
+.hand .card .title {
+  background-color: #242068;
+  color: white;
+  padding: 3px 0 6px 0;
+  font-weight: bold;
+}
+.hand .card .spacing {
+  flex-grow: 1;
+}
+.hand .card .action {
+  border: none;
+  background: none;
+  border-top: 3px solid #242068;
+  color: #242068;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 5px;
+}
