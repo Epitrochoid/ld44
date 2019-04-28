@@ -9,6 +9,7 @@ function combatDamage(attacker, defender) {
 }
 
 function resolveMelee(attacker, defender) {
+    console.log('In resolveMelee')
     let hitNum = constants.BASE_HIT_NUMBER + attacker.stats.acc - defender.stats.eva + Math.floor((Math.random() * constants.HIT_DICE_SIDES) + 1);
     let damage = combatDamage(attacker, defender);
     let log;
@@ -26,6 +27,7 @@ function resolveMelee(attacker, defender) {
         defender.hp = defender.hp - damage;
         log = `${attacker.name} hits ${defender.name}. ${damage} damage was dealt`;
     }
+    console.log('Out resolveMelee')
 
     return {attacker: attacker, defender: defender, logMessage: log};
 }
@@ -76,4 +78,4 @@ function resolveSpell(attacker, defender, spell) {
     }
     return {attacker: attacker, defender: defender, logMessage: log};
 }
-export default {resolveMelee, resolveSpell};
+export {resolveMelee, resolveSpell};

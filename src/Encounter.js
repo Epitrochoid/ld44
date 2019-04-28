@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { AwesomeButton } from 'react-awesome-button';
+import AwesomeButtonStyles from "react-awesome-button/src/styles/styles.scss";
 
 import './Encounter.css';
+import { resolveMelee, resolveSpell } from './combat';
 
 class Encounter extends Component {
     constructor() {
@@ -11,7 +14,34 @@ class Encounter extends Component {
             },
             enemy: {
                 stats: {}
-            }
+            },
+            enableAction: true
+        }
+
+        this.displayActions = this.displayActions.bind(this);
+        this.attack = this.attack.bind(this);
+    }
+
+    displayActions() {
+        return (
+            <div className='button-box'>
+                <AwesomeButton
+                    type='primary'
+                    cssModule={ AwesomeButtonStyles }
+                    onPress={ this.attack }
+                >
+                    Attack
+                </AwesomeButton>
+            </div>
+        )
+    }
+
+    attack() {
+        console.log('In attack')
+        if (this.state.enableAction) {
+            const newVals = resolveMelee(this.state.player, this.state.enemy);
+            console.log('!!', newVals);
+            this.setState({ player: newVals.attacker, enemy: newVals.defender, enableAction:false });
         }
     }
 
@@ -42,7 +72,7 @@ class Encounter extends Component {
                 </div>
                 <div className='row'>
                     <div className='info-column column'>
-                        HP: { entity.stats.hp }
+                        HP: { entity.hp }
                     </div>
                     <div className='stat-name-column column'>
                         Acc
@@ -85,6 +115,7 @@ class Encounter extends Component {
             <div>
                 { this.displayEntity(this.state.player) }
                 { this.displayEntity(this.state.enemy) }
+                { this.displayActions() }
             </div>
         );
     }
