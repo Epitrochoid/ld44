@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 import Encounter from './Encounter';
 import playerInit from './static/playerInit';
+import Map from './Map';
 
 class World extends Component {
     constructor() {
@@ -53,7 +53,8 @@ class World extends Component {
 function App() {
   return (
     <div className="App">
-        <World />
+        {/* <World /> */}
+        <Map />
     </div>
   );
 }
