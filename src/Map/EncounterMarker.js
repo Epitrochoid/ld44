@@ -10,26 +10,26 @@ class EncounterMarker extends FixedImage {
             displayMarker: true
         }
     }
-    engageTooltip(){
-        console.log('eeerrrr')
-        this.state.setState({disableMarker: false});
-    }
     
     render(){
         const reenableMarker = () => {
-            this.state.setState({disableMarker: true});
+            this.setState({displayMarker: true});
+        }
+        const engageTooltip = () => {
+            console.log('eeerrrr')
+            this.setState({displayMarker: false});
         }
         const [
             x,
             y
         ] = this.props.orientation;
-        console.log('buggy')
         return  this.state.displayMarker ? (
-            <FixedImage 
-                orientation={[0.02, 0.05, 0, x, y ]}
-                pic={encounterMarkePic} 
-                onMouseOver={console.log}
-                />
+            <div onMouseOver={engageTooltip}>
+                <FixedImage 
+                    orientation={[0.02, 0.05, 0, x, y ]}
+                    pic={encounterMarkePic}
+                    />
+            </div>
         ) : (
             <div>
                 sup

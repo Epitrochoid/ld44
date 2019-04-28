@@ -24,7 +24,8 @@ class FixedImage extends Component {
                         position: "absolute",
                         top:styleTop,
                         left: styleLeft
-                    }}>
+                    }}                
+            >
             </div>
         );
     }
