@@ -11,7 +11,7 @@ class Map extends Component {
     }
 
     render() {
-        let mapEncounters = {
+        let monsters = {
             reaper: {
                 x: 0.3,
                 y: 0.3
@@ -19,15 +19,24 @@ class Map extends Component {
             slug: {
                 x: 0.4,
                 y: 0.6,
-                
+            },
+            squirrel: {
+                x: 0.85,
+                y: 0.4,
             }
         }
+        const mapEncounters = Object.keys(monsters).map(monsterName => ({
+            x: monsters[monsterName].x,
+            y: monsters[monsterName].y,
+            name: monsterName
+        }))
+        console.log(mapEncounters)
         return (
             <div>
-                <div style={{ width: '100vw', height: '100vh', backgroundImage: `url(${mapPic})`, backgroundSize: '100% 100%'  }} ></div>
-                <EncounterMarker orientation={[0.8, 0.6]}/> 
-                <EncounterMarker orientation={[0.35, 0.3]}/> 
-                <EncounterMarker orientation={[0.5, 0.2]}/> 
+                <FixedImage orientation={[1, 1, 0, 0, 0]} pic={mapPic} />
+                {mapEncounters.map(encounter => (
+                    <EncounterMarker name={encounter.name} orientation={[encounter.x, encounter.y]}/>
+                ))}
             </div>
         );
     }

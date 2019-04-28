@@ -1,6 +1,7 @@
 import React from 'react';
 import FixedImage from './FixedImage';
 import encounterMarkePic from '../images/encounter-marker.png';
+import FixedDiv from './FixedDiv';
 
 class EncounterMarker extends FixedImage {
 
@@ -31,9 +32,17 @@ class EncounterMarker extends FixedImage {
                     />
             </div>
         ) : (
-            <div>
-                sup
-            </div>
+            <FixedDiv 
+                onMouseLeave={reenableMarker}
+                orientation={[0.10, 0.10, 0, x, y ]}
+                style={{
+                    background: 'red'
+                }}
+            >
+                <strong>{this.props.name}</strong> <br />
+                {`${this.props.name} stats go here`}
+                <button onClick={()=>console.log(`fighting ${this.props.name}`)}>Fight {this.props.name}</button>
+            </FixedDiv>
         ) 
     }
 }
