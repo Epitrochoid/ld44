@@ -10,8 +10,8 @@ class Encounter extends Component {
     constructor() {
         super();
         this.state = {
-            player: { 
-                stats: {} 
+            player: {
+                stats: {}
             },
             enemy: {
                 stats: {}
@@ -58,7 +58,7 @@ class Encounter extends Component {
         const { player, updatePlayer } = this.state;
         updatePlayer({
             ...player,
-            cards: [...player.cards, ...getSpells(3)]
+            cards: [...getSpells(3)]
         });
     }
 
@@ -144,11 +144,57 @@ const Hand = ({cards=[]}) => (
         {cards.map(card => (
             <div className="card" key={card.id}>
                 <div className="title">{card.name}</div>
-                <div className="spacing"></div>
+                <div className="spacing">
+                    <strong>Cost:</strong> {costString(card.cost)}<br/>
+                    <strong>Effect:</strong> {effectString(card.effect)}<br/>
+                </div>
                 <button className="action">Play!</button>
             </div>
         ))}
     </div>
 );
+
+function costString(cost) {
+    let statStrings = [];
+    if (cost.str) {
+        statStrings.push(`-${cost.str} STR`);
+    }
+    if (cost.def) {
+        statStrings.push(`-${cost.def} DEF`);
+    }
+    if (cost.acc) {
+        statStrings.push(`-${cost.acc} ACC`);
+    }
+    if (cost.eva) {
+        statStrings.push(`-${cost.eva} EVA`);
+    }
+    if (cost.con) {
+        statStrings.push(`-${cost.con} CON`);
+    }
+    return statStrings.join(', ');
+}
+
+function effectString(effect) {
+    let effectStrings = [];
+    if (effect.damage) {
+        effectStrings.push(`Deals ${ effect.damage} magical damage`);
+    }
+    if (effect.debuffStr) {
+        effectStrings.push(`Lowers enemy STR by ${effect.debuffStr}`);
+    }
+    if (effect.debuffDef) {
+        effectStrings.push(`Lowers enemy DEF by ${effect.debuffDef}`);
+    }
+    if (effect.debuffAcc) {
+        effectStrings.push(`Lowers enemy ACC by ${effect.debuffAcc}`);
+    }
+    if (effect.debuffEva) {
+        effectStrings.push(`Lowers enemy EVA by ${effect.debuffEva}`);
+    }
+    if (effect.heal) {
+        effectStrings.push(`Heals your HP back to full`);
+    }
+    return effectStrings.join('<br/>');
+}
 
 export default Encounter;
