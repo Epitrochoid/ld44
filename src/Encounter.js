@@ -22,10 +22,14 @@ class Encounter extends Component {
 
         this._displayActions = this.displayActions.bind(this);
         this._attack = this.attack.bind(this);
+        this._defend = this.defend.bind(this);
         this._draw = (...args) => this.draw(...args);
     }
 
     displayActions() {
+        if (this.state.player.cards && this.state.player.cards.length !== 0) {
+            return (<div className='button-box'/>);
+        }
         return (
             <div className='button-box'>
                 <AwesomeButton
@@ -39,7 +43,7 @@ class Encounter extends Component {
                     type="secondary"
                     onPress={ this._draw }
                 >
-                    Draw
+                    Cast Blood Magic
                 </AwesomeButton>
             </div>
         )
@@ -55,6 +59,13 @@ class Encounter extends Component {
         }
     }
 
+    defend() {
+        console.log('In defend (being attacked)')
+        const newVals = resolveMelee(this.state.enemy, this.state.player);
+        const newLog = this.addLogMessage(this.state.combatLog, newVals.logMessage);
+        this.setState({ player: newVals.defender, enemy: newVals.attacker, enableAction:true, combatLog: newLog });
+    }
+
     draw() {
         console.log('draw');
         const { player, updatePlayer } = this.state;
@@ -64,10 +75,19 @@ class Encounter extends Component {
         });
     }
 
+    castSpell(spell) {
+        console.log('in cast spell', spell, this)
+        const newLog = this.addLogMessage(this.state.combatLog, `You cast ${spell.name}`);
+        const newVals = resolveSpell(this.state.player, this.state.enemy, spell);
+        newVals.attacker.cards = [];
+        const newestLog = this.addLogMessage(newLog, newVals.logMessage);
+        this.setState({ player: newVals.attacker, enemy: newVals.defender, enableAction:true, combatLog: newLog });
+    }
+
     addLogMessage(log, newMessage) {
-        log.push(newMessage);
-        while (log.length > 20) {
-            log.shift();
+        log.unshift(newMessage);
+        while (log.length > 10) {
+            log.pop();
         }
         return log;
     }
@@ -137,20 +157,27 @@ class Encounter extends Component {
         this.setState({ player, enemy, updatePlayer });
     }
 
+    componentDidUpdate(prevProps) {
+        console.log('in component did update', prevProps)
+        if (this.state.enableAction === false) {
+            this.defend();
+        }
+    }
+
     render() {
         return (
             <div>
                 { this.displayEntity(this.state.player) }
                 { this.displayEntity(this.state.enemy) }
                 { this.displayActions() }
-                <Hand cards={this.state.player.cards} />
+                <Hand cards={this.state.player.cards} handler={this.castSpell}/>
                 <CombatLog logs={this.state.combatLog} />
             </div>
         );
     }
 }
 
-const Hand = ({cards=[]}) => (
+const Hand = ({cards=[], handler=()=>{}}) => (
     <div className="hand">
         {cards.map(card => (
             <div className="card" key={card.id}>
@@ -159,7 +186,7 @@ const Hand = ({cards=[]}) => (
                     <strong>Cost:</strong> {costString(card.cost)}<br/>
                     <strong>Effect:</strong> {effectString(card.effect)}<br/>
                 </div>
-                <button className="action">Play!</button>
+                <button className="action" onClick={function() {handler(card);}}>Play!</button>
             </div>
         ))}
     </div>

@@ -11,7 +11,7 @@ function combatDamage(attacker, defender) {
 function resolveMelee(attacker, defender) {
     console.log('In resolveMelee')
     let hitNum = constants.BASE_HIT_NUMBER + attacker.stats.acc - defender.stats.eva + Math.floor((Math.random() * constants.HIT_DICE_SIDES) + 1);
-    let damage = combatDamage(attacker, defender);
+    let damage = Math.max(combatDamage(attacker, defender), 0);
     let log;
     if (hitNum <= 1) { // Miss
         log = `${attacker.name} fails to land a hit! ${defender.name} received no damage!`;
@@ -20,7 +20,7 @@ function resolveMelee(attacker, defender) {
         defender.hp = defender.hp - glanceDmg;
         log = `${attacker.name} lands a glancing blow upon ${defender.name}. ${glanceDmg} damage was dealt`;
     } else if (hitNum >=20) { // critical hit
-        let critDmg = damage*2;
+        let critDmg = Math.max(damage*2, 1);
         defender.hp = defender.hp - critDmg;
         log = `${attacker.name} lands a critical hit! ${critDmg} damage oozes out from ${defender.name}`;
     } else { // hitNum <=19 && hitNum >=11, normal hit
