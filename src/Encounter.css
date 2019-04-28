@@ -59,3 +59,7 @@
   cursor: pointer;
   padding: 5px;
 }
+.log-container {
+    border-radius: 5px;
+    border: 3px solid #242068;
+}

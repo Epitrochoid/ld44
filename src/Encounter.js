@@ -16,7 +16,8 @@ class Encounter extends Component {
             enemy: {
                 stats: {}
             },
-            enableAction: true
+            enableAction: true,
+            combatLog: []
         }
 
         this._displayActions = this.displayActions.bind(this);
@@ -49,7 +50,8 @@ class Encounter extends Component {
         if (this.state.enableAction) {
             const newVals = resolveMelee(this.state.player, this.state.enemy);
             console.log('!!', newVals);
-            this.setState({ player: newVals.attacker, enemy: newVals.defender, enableAction:false });
+            const newLog = this.addLogMessage(this.state.combatLog, newVals.logMessage);
+            this.setState({ player: newVals.attacker, enemy: newVals.defender, enableAction:false, combatLog: newLog });
         }
     }
 
@@ -60,6 +62,14 @@ class Encounter extends Component {
             ...player,
             cards: [...getSpells(3)]
         });
+    }
+
+    addLogMessage(log, newMessage) {
+        log.push(newMessage);
+        while (log.length > 20) {
+            log.shift();
+        }
+        return log;
     }
 
     displayEntity(entity) {
@@ -134,6 +144,7 @@ class Encounter extends Component {
                 { this.displayEntity(this.state.enemy) }
                 { this.displayActions() }
                 <Hand cards={this.state.player.cards} />
+                <CombatLog logs={this.state.combatLog} />
             </div>
         );
     }
@@ -149,6 +160,17 @@ const Hand = ({cards=[]}) => (
                     <strong>Effect:</strong> {effectString(card.effect)}<br/>
                 </div>
                 <button className="action">Play!</button>
+            </div>
+        ))}
+    </div>
+);
+
+const CombatLog = ({logs=[]}) => (
+    <div className="log-container">
+        Combat Log:
+        {logs.map(log => (
+            <div className="log-message">
+                {log}
             </div>
         ))}
     </div>
