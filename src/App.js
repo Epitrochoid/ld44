@@ -13,14 +13,16 @@ class World extends Component {
                 stats: {},
                 baseDmg: 2,
                 cards: []
-            }
+            },
+            inEncounter: true
         }
 
-        this.updatePlayer = this.updatePlayer.bind(this);
+        this._endEncounter = this.endEncounter.bind(this);
     }
 
-    updatePlayer(player) {
-        this.setState({ player });
+    endEncounter(didPlayerWin, player) {
+        console.log('Encounter over, player won: ', didPlayerWin);
+        this.setState({ inEncounter: false });
     }
 
     componentDidMount() {
@@ -42,11 +44,19 @@ class World extends Component {
     }
 
     render() {
-        return (
-            <div className='World'>
-                <Encounter player={ this.state.player } enemy={ this.state.enemy } updatePlayer={ this.updatePlayer } />
-            </div>
-        );
+        if (this.state.inEncounter) {
+            return (
+                <div className='World'>
+                    <Encounter player={ this.state.player } enemy={ this.state.enemy } endEncounter={ this._endEncounter } />
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <p>No more encounters</p>
+                </div>
+            );
+        }
     }
 }
 

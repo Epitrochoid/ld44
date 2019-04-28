@@ -17,7 +17,8 @@ class Encounter extends Component {
                 stats: {}
             },
             enableAction: true,
-            combatLog: []
+            combatLog: [],
+            endEncounter: function() { return; }
         }
 
         this._displayActions = this.displayActions.bind(this);
@@ -54,25 +55,33 @@ class Encounter extends Component {
         if (this.state.enableAction) {
             const newVals = resolveMelee(this.state.player, this.state.enemy);
             console.log('!!', newVals);
-            const newLog = this.addLogMessage(this.state.combatLog, newVals.logMessage);
-            this.setState({ player: newVals.attacker, enemy: newVals.defender, enableAction:false, combatLog: newLog });
+            let newLog = this.addLogMessage(this.state.combatLog, newVals.logMessage);
+            if (newVals.defender.hp <= 0) {
+                this.state.endEncounter(true, newVals.attacker);
+            } else {
+                this.setState({ player: newVals.attacker, enemy: newVals.defender, enableAction:false, combatLog: newLog });
+            }
         }
     }
 
     defend() {
         console.log('In defend (being attacked)')
         const newVals = resolveMelee(this.state.enemy, this.state.player);
-        const newLog = this.addLogMessage(this.state.combatLog, newVals.logMessage);
-        this.setState({ player: newVals.defender, enemy: newVals.attacker, enableAction:true, combatLog: newLog });
+        let newLog = this.addLogMessage(this.state.combatLog, newVals.logMessage);
+        if (newVals.defender.hp <= 0) {
+            this.state.endEncounter(false, newVals.defender);
+        } else {
+            this.setState({ player: newVals.defender, enemy: newVals.attacker, enableAction:true, combatLog: newLog });
+        }
     }
 
     draw() {
         console.log('draw');
-        const { player, updatePlayer } = this.state;
-        updatePlayer({
-            ...player,
-            cards: [...getSpells(3)]
-        });
+        //const { player, updatePlayer } = this.state;
+        //updatePlayer({
+        //    ...player,
+        //    cards: [...getSpells(3)]
+        //});
     }
 
     castSpell=(spell) => {
@@ -153,8 +162,8 @@ class Encounter extends Component {
     }
 
     componentWillReceiveProps(newProps) {
-        const { player, enemy, updatePlayer } = newProps;
-        this.setState({ player, enemy, updatePlayer });
+        const { player, enemy, endEncounter } = newProps;
+        this.setState({ player, enemy, endEncounter });
     }
 
     componentDidUpdate(prevProps) {
