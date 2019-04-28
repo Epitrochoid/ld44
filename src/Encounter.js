@@ -75,13 +75,13 @@ class Encounter extends Component {
         });
     }
 
-    castSpell(spell) {
+    castSpell=(spell) => {
         console.log('in cast spell', spell, this)
         const newLog = this.addLogMessage(this.state.combatLog, `You cast ${spell.name}`);
         const newVals = resolveSpell(this.state.player, this.state.enemy, spell);
         newVals.attacker.cards = [];
         const newestLog = this.addLogMessage(newLog, newVals.logMessage);
-        this.setState({ player: newVals.attacker, enemy: newVals.defender, enableAction:true, combatLog: newLog });
+        this.setState({ player: newVals.attacker, enemy: newVals.defender, enableAction:false, combatLog: newestLog });
     }
 
     addLogMessage(log, newMessage) {
