@@ -77,11 +77,12 @@ class Encounter extends Component {
 
     draw() {
         console.log('draw');
-        //const { player, updatePlayer } = this.state;
-        //updatePlayer({
-        //    ...player,
-        //    cards: [...getSpells(3)]
-        //});
+        const { player } = this.state;
+        const updatedPlayer =({
+            ...player,
+            cards: [...getSpells(3)]
+        });
+        this.setState({ player: updatedPlayer });
     }
 
     castSpell=(spell) => {
