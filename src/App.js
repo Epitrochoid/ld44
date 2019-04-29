@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 import Encounter from './Encounter';
@@ -14,18 +13,40 @@ class World extends Component {
                 baseDmg: 2,
                 cards: []
             },
-            inEncounter: true
+            inEncounter: true,
+            isGameOver: false
         }
 
         this._endEncounter = this.endEncounter.bind(this);
     }
 
-    endEncounter(didPlayerWin, player) {
-        console.log('Encounter over, player won: ', didPlayerWin);
-        this.setState({ inEncounter: false });
+    endEncounter(didPlayerWin, newPlayer) {
+        console.log('Encounter over, player won: ', didPlayerWin, newPlayer);
+        this.setState({ inEncounter: false, isGameOver: !didPlayerWin, player: newPlayer });
     }
 
-    componentDidMount() {
+    startNewEncounter() {
+        const newEnemy = this.randomEnemy();
+        this.setState({ enemy: newEnemy, inEncounter: true });
+    }
+
+    randomEnemy() {
+        const newEnemy = {
+            name: 'Reaper',
+            stats: {
+                acc: (Math.floor((Math.random() * 4) + 8)),
+                eva: (Math.floor((Math.random() * 4) + 8)),
+                str: (Math.floor((Math.random() * 4) + 8)),
+                def: (Math.floor((Math.random() * 4) + 8)),
+                con: 10
+            },
+            baseDmg: (Math.floor((Math.random() * 2) + 1)),
+            hp: 10
+        }
+        return newEnemy;
+    }
+
+    startNewGame() {
         this.setState({ player: playerInit });
 
         const testEnemy = {
@@ -40,7 +61,11 @@ class World extends Component {
             baseDmg: 1,
             hp: 10
         };
-        this.setState({ enemy: testEnemy });
+        this.setState({ enemy: testEnemy, inEncounter: true, isGameOver: false });
+    }
+
+    componentDidMount() {
+        this.startNewGame();
     }
 
     render() {
@@ -51,11 +76,21 @@ class World extends Component {
                 </div>
             );
         } else {
-            return (
-                <div>
-                    <p>No more encounters</p>
-                </div>
-            );
+            if (this.state.isGameOver) {
+                return (
+                    <div>
+                        <p>You failed</p>
+                        <button onClick={()=>this.startNewGame()}>Try again?</button>
+                    </div>
+                );
+            } else {
+                return (
+                    <div>
+                        <p>Another one bites the dust</p>
+                        <button onClick={()=>this.startNewEncounter()}>Keep going</button>
+                    </div>
+                );
+            }
         }
     }
 }

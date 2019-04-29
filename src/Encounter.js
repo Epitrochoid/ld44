@@ -35,7 +35,6 @@ class Encounter extends Component {
             <div className='button-box'>
                 <AwesomeButton
                     type='primary'
-                    // cssModule={ AwesomeButtonStyles }
                     onPress={ this._attack }
                 >
                     Attack
@@ -91,7 +90,11 @@ class Encounter extends Component {
         const newVals = resolveSpell(this.state.player, this.state.enemy, spell);
         newVals.attacker.cards = [];
         const newestLog = this.addLogMessage(newLog, newVals.logMessage);
-        this.setState({ player: newVals.attacker, enemy: newVals.defender, enableAction:false, combatLog: newestLog });
+        if (newVals.defender.hp <= 0) {
+            this.state.endEncounter(true, newVals.attacker);
+        } else {
+            this.setState({ player: newVals.attacker, enemy: newVals.defender, enableAction:false, combatLog: newestLog });
+        }
     }
 
     addLogMessage(log, newMessage) {
@@ -163,6 +166,7 @@ class Encounter extends Component {
     }
 
     componentWillReceiveProps(newProps) {
+        console.log('in component will receive props', newProps)
         const { player, enemy, endEncounter } = newProps;
         this.setState({ player, enemy, endEncounter });
     }
