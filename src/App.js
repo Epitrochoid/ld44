@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 
 import Encounter from './Encounter';
-import playerInit from './static/playerInit';
 
 class World extends Component {
     constructor() {
@@ -34,6 +33,22 @@ class World extends Component {
         this.setState({ enemy: newEnemy, inEncounter: true });
     }
 
+    newPlayer() {
+        const reborn = {
+            name: 'Player',
+            stats: {
+                acc: 10,
+                eva: 10,
+                str: 10,
+                def: 10,
+                con: 10
+            },
+            baseDmg: 2,
+            hp: 10,
+        }
+        return reborn;
+    }
+
     randomEnemy() {
         const newEnemy = {
             name: 'Reaper',
@@ -51,6 +66,7 @@ class World extends Component {
     }
 
     startNewGame() {
+        const playerInit = this.newPlayer();
         this.setState({ player: playerInit });
 
         const testEnemy = {
