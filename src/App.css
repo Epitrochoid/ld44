@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  background-image: url("static/assets/mot.png");
+  background-repeat: repeat;
+  margin: 2em;
 }
 
 .App-logo {
