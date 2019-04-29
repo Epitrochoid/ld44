@@ -178,6 +178,12 @@ class Encounter extends Component {
         }
     }
 
+    componentDidMount() {
+        console.log('in component did mount', this.props)
+        const { player, enemy, endEncounter } = this.props;
+        this.setState({ player, enemy, endEncounter });
+    }
+
     render() {
         return (
             <div>

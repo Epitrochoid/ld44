@@ -13,7 +13,10 @@ class World extends Component {
                 baseDmg: 2,
                 cards: []
             },
-            inEncounter: true,
+            enemy: {
+                id: 0
+            },
+            inEncounter: false,
             isGameOver: false
         }
 
@@ -27,6 +30,7 @@ class World extends Component {
 
     startNewEncounter() {
         const newEnemy = this.randomEnemy();
+        newEnemy.id = this.state.enemy.id + 1;
         this.setState({ enemy: newEnemy, inEncounter: true });
     }
 
@@ -59,7 +63,8 @@ class World extends Component {
                 con: 10
             },
             baseDmg: 1,
-            hp: 10
+            hp: 10,
+            id: 1
         };
         this.setState({ enemy: testEnemy, inEncounter: true, isGameOver: false });
     }
@@ -70,9 +75,10 @@ class World extends Component {
 
     render() {
         if (this.state.inEncounter) {
+            console.log('In encounter with eneemy: ', this.state.enemy);
             return (
                 <div className='World'>
-                    <Encounter player={ this.state.player } enemy={ this.state.enemy } endEncounter={ this._endEncounter } />
+                    <Encounter player={ this.state.player } enemy={ this.state.enemy } endEncounter={ this._endEncounter } key={ this.state.enemy.id }/>
                 </div>
             );
         } else {
