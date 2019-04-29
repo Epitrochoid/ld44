@@ -1,6 +1,11 @@
 .entity-data {
   margin: 2em;
-  border: 5px solid black;
+  border: 2px solid #ccccd8;
+  background-color: linen;
+  background-image: url("static/assets/parch.png");
+  background-repeat: repeat;
+  box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.5);
+  color: black;
 }
 
 .row {
@@ -37,6 +42,9 @@
   height: 200px;
   width: 150px;
   box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.2);
+  color: black;
+  background-image: url("static/assets/parch.png");
+  background-repeat: repeat;
 }
 .hand .card:hover {
   box-shadow: none;
@@ -54,12 +62,17 @@
   border: none;
   background: none;
   border-top: 3px solid #242068;
-  color: #242068;
+  /* color: #242068; */
+  color: black;
   font-weight: bold;
   cursor: pointer;
   padding: 5px;
 }
 .log-container {
-    border-radius: 5px;
-    border: 3px solid #242068;
+  border-radius: 5px;
+  /* border: 3px solid #242068; */
+  border: 3px solid black; 
+  background-image: url("static/assets/parch.png");
+  background-repeat: repeat;
+  color: black;
 }

@@ -177,8 +177,14 @@ class Encounter extends Component {
     render() {
         return (
             <div>
-                { this.displayEntity(this.state.player) }
-                { this.displayEntity(this.state.enemy) }
+                <div class="row">
+                    <div class="column">
+                        { this.displayEntity(this.state.player) }
+                    </div>
+                    <div class="column">
+                        { this.displayEntity(this.state.enemy) }
+                    </div>
+                </div>
                 { this.displayActions() }
                 <Hand cards={this.state.player.cards} handler={this.castSpell}/>
                 <CombatLog logs={this.state.combatLog} />
